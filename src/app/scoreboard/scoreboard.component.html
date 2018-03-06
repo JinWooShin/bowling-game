@@ -1,0 +1,10 @@
+<div>
+  <table>
+    <tr *ngFor="let player of players">
+      <td *ngFor="let frame of player.score">
+        {{frame[0]}}|{{frame[1]}}
+      </td>
+    </tr>
+
+  </table>
+</div>

@@ -1,0 +1,11 @@
+<div>
+  <div>
+    <label>Number of players:
+      <input [(ngModel)]="numOfPlayers" placeholder="1" type="number">
+    </label>
+  </div>
+  <div>
+      <button type="button" (click)="startGame()">Start</button>
+  </div>
+</div>
+<app-scoreboard *ngIf="gameStart" [players]="players"></app-scoreboard>
