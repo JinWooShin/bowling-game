@@ -1,0 +1,13 @@
+<div>
+  <span>Current Player: </span>
+  <span>{{bowlingGame.currentPlayer.name}}</span>
+</div>
+<div>
+    <div>
+        <button type="button" (click)="rollBall()">Roll!</button>
+    </div>
+</div>
+
+<div *ngIf="bowlingGame.isGameOver()">
+  GAME OVER!!!
+</div>

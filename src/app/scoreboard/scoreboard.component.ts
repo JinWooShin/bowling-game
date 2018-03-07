@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {Player} from "../Bowling/Player";
+import {Bowling} from "../Bowling/Bowling";
 
 @Component({
   selector: 'app-scoreboard',
@@ -7,8 +7,8 @@ import {Player} from "../Bowling/Player";
   styleUrls: ['./scoreboard.component.scss']
 })
 export class ScoreboardComponent implements OnInit {
-  @Input() players:Player[];
-  
+  @Input() bowlingGame:Bowling;
+
   constructor() { }
 
   ngOnInit() {

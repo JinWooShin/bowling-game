@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BowlinggameComponent } from './bowlinggame/bowlinggame.component';
 import { GameSettingComponent } from './game-setting/game-setting.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import { GamepanelComponent } from './gamepanel/gamepanel.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ScoreboardComponent } from './scoreboard/scoreboard.component';
     AppComponent,
     BowlinggameComponent,
     GameSettingComponent,
-    ScoreboardComponent
+    ScoreboardComponent,
+    GamepanelComponent
   ],
   imports: [
     BrowserModule,

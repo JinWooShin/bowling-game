@@ -1,8 +1,20 @@
 <div>
   <table>
-    <tr *ngFor="let player of players">
-      <td *ngFor="let frame of player.score">
-        {{frame[0]}}|{{frame[1]}}
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th *ngFor="let frame of bowlingGame.players[0].score; let i = index">
+          <span>{{i+1}}</span>
+        </th>
+      </tr>
+    </thead>
+    <tr *ngFor="let player of bowlingGame.players"
+      [ngClass]="{current:bowlingGame.currentPlayer===player}">
+      <td>{{player.name}}</td>
+      <td *ngFor="let frame of player.score; let last = last">
+        <div *ngIf="!last">{{frame[0]}}|{{frame[1]}}</div>
+        <div *ngIf="last">{{frame[0]}}|{{frame[1]}}|{{frame[2]}}</div>
+        <div>total</div>
       </td>
     </tr>
 

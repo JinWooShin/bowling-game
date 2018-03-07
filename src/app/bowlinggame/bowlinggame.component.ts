@@ -11,7 +11,6 @@ import {Player} from '../Bowling/Player';
 export class BowlinggameComponent implements OnInit {
   numOfPlayers: number;
   BowlingGame: Bowling;
-  players: Player[];
   gameStart: boolean;
   constructor() { }
 
@@ -22,7 +21,7 @@ export class BowlinggameComponent implements OnInit {
 
   startGame() {
     this.BowlingGame = new Bowling(this.numOfPlayers);
-    this.players = this.BowlingGame.players;
+    this.BowlingGame.startGame();
     this.gameStart = true;
   }
 
