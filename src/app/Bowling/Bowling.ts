@@ -31,15 +31,18 @@ export class Bowling {
         }
     }
 
-    rollTheBall():void {
+    rollTheBall():number {
         var numOfFallen = this.getFallenPins();
         this.currentPlayer.score[this.currentFrame - 1][this.currentTry - 1] = numOfFallen;
         this.currentTry++;
+        return numOfFallen;
     }
 
     isDone():boolean {
         if (this.currentFrame === 10) {
-            if ((this.currentTry === 2 && this.getRemainPins()!==0) || this.currentTry === 3 ) {
+            if (this.currentTry > 3) {
+                return true;
+            } else if (this.currentTry ===3 && this.getRemainPins()!==0) {
                 return true;
             } else {
                 return false;
@@ -72,6 +75,7 @@ export class Bowling {
             this.currentPlayer = this.players[idx + 1];
         }
         this.currentTry = 1;
+        
     }
 
     getScore():void {
@@ -79,8 +83,9 @@ export class Bowling {
     }
 
     private getFallenPins():number {
-        var pins = this.getRemainPins();   
-        return Math.floor (Math.random() * (pins+1));
+        var pins = this.getRemainPins();
+        var remain = Math.floor (Math.random() * (pins+1));
+        return remain;
     }
 
     private getRemainPins():number {

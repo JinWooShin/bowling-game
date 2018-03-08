@@ -3,20 +3,32 @@
     <thead>
       <tr>
         <th>Player</th>
-        <th *ngFor="let frame of bowlingGame.players[0].score; let i = index">
+        <th *ngFor="let frame of bowlingGame.players[0].score; let i = index"
+          [ngClass]="{current:bowlingGame.currentFrame===i+1}">
           <span>{{i+1}}</span>
         </th>
       </tr>
     </thead>
-    <tr *ngFor="let player of bowlingGame.players"
-      [ngClass]="{current:bowlingGame.currentPlayer===player}">
-      <td>{{player.name}}</td>
-      <td *ngFor="let frame of player.score; let last = last">
-        <div *ngIf="!last">{{frame[0]}}|{{frame[1]}}</div>
-        <div *ngIf="last">{{frame[0]}}|{{frame[1]}}|{{frame[2]}}</div>
-        <div>total</div>
-      </td>
-    </tr>
-
+    <tbody>
+      <tr *ngFor="let player of bowlingGame.players"
+        [ngClass]="{current:bowlingGame.currentPlayer===player}">
+        <td>{{player.name}}</td>
+        <td *ngFor="let frame of player.score; let last = last; let i = index">
+          <div *ngIf="!last">
+            <span *ngFor="let currentTry of [1,2], let _last = last">
+              <span [ngClass]="{currentTry:isCurrent(player, currentTry, i+1)}">{{getScore(frame, currentTry-1, last)}}</span>
+              <span *ngIf="!_last">|</span>
+            </span>       
+          </div>
+          <div *ngIf="last">
+            <span *ngFor="let currentTry of [1,2,3], let _last = last">
+              <span [ngClass]="{currentTry:isCurrent(player, currentTry, i+1)}">{{frame[currentTry-1]}}</span>
+              <span *ngIf="!_last">|</span>
+            </span> 
+          </div>
+          <div>{{getTotal(player.score, i)}}</div>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>

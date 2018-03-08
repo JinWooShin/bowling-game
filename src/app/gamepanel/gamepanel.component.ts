@@ -8,19 +8,16 @@ import { Bowling } from '../Bowling/Bowling';
 })
 export class GamepanelComponent implements OnInit {
   @Input() bowlingGame:Bowling;
+  fallen: number;
   constructor() { }
 
   ngOnInit() {
   }
 
   rollBall() {
-    if (this.bowlingGame.isGameOver()) {
-
-    } else {
-      this.bowlingGame.rollTheBall();
-      if (this.bowlingGame.isDone()) {
-        this.bowlingGame.nextPlayer();
-      }
+    this.fallen = this.bowlingGame.rollTheBall();
+    if (this.bowlingGame.isDone() && !this.bowlingGame.isGameOver()) {
+      this.bowlingGame.nextPlayer();
     }
   }
 }

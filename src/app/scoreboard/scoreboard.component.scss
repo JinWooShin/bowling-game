@@ -1,0 +1,26 @@
+table {
+    border: 1px solid gray;
+    thead {
+        th.current {
+            background-color: blue;
+            color: white;
+        }
+    }
+    tbody {
+        tr.current {
+            background-color: lightblue;
+        }
+        tr {
+            td {
+                span.currentTry {
+                    background-color: blue;
+                    color: white;
+                }
+                span.trySeperator {
+                    background-color: white;
+                    color: black;
+                }
+            }
+        }
+    }
+}
