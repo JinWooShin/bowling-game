@@ -26,7 +26,10 @@
               <span *ngIf="!_last">|</span>
             </span> 
           </div>
-          <div>{{getTotal(player.score, i)}}</div>
+          <div>
+            <span *ngIf="bowlingGame.currentFrame-1>i">{{getTotal(player, i)}}</span>
+            <span *ngIf="bowlingGame.currentFrame-1<=i">-</span>
+          </div>
         </td>
       </tr>
     </tbody>

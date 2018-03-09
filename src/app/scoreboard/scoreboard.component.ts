@@ -51,31 +51,14 @@ export class ScoreboardComponent implements OnInit {
     }
     return score;
   }
-  getTotal(scores:number[][], currentFrame) {
-    var total = 0;
-      for (var i=0; i<=currentFrame; i++) {
-        var currentTotal =  scores[i].reduce(this.reducer);
-        if(i>=1) {
-          if (scores[i-1].indexOf(10)===0) {
-            currentTotal = 10 + scores[currentFrame].reduce(this.reducer);
-          }
-          else if (scores[i-1].reduce(this.reducer)===10) {
-            currentTotal = 10 + scores[currentFrame][0];
-          }
-          if (i>=2 && scores[i-2].indexOf(10)===0) {
-            currentTotal+=10;
-            if (i>=3 && scores[i-3].indexOf(10)===0) {
-              currentTotal+=10;
-            }
-          } 
-        }
-        total+=currentTotal;
-      }
-    if((this.bowlingGame.currentFrame === currentFrame+1 && scores[currentFrame].reduce(this.reducer)===10)||
-      total===0 ||
-      this.bowlingGame.currentFrame<=i) {
-      return " ";
-    } 
-    return total===0?"-":total;
+  getTotal(player:Player, currentFrame) {
+    var total = 0; 
+    for (var i=0; i<=currentFrame; i++) {
+      total+=player.total[i];
+    }
+    // if(player.score[currentFrame].reduce(this.reducer)===10 || player.score[currentFrame][0]===10) {
+    //   return "";
+    // }
+    return total.toString();;
   }
 }

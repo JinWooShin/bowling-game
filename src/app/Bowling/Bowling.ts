@@ -8,6 +8,8 @@ export class Bowling {
     currentPlayer: Player;
     currentTry: number;
     inProgress: boolean;
+    
+    readonly reducer = (accumulator, currentValue) => accumulator + currentValue;
 
     constructor(player: number) {
         this.numPlayers = player;
@@ -34,21 +36,22 @@ export class Bowling {
     rollTheBall():number {
         var numOfFallen = this.getFallenPins();
         this.currentPlayer.score[this.currentFrame - 1][this.currentTry - 1] = numOfFallen;
+        //calculate total score;
         this.currentTry++;
         return numOfFallen;
     }
 
     isDone():boolean {
         if (this.currentFrame === 10) {
-            if (this.currentTry > 3) {
-                return true;
-            } else if (this.currentTry ===3 && this.getRemainPins()!==0) {
+            if (this.currentTry > 3 || (this.currentTry ===3 && this.getRemainPins()!==0)) {
+                this.setTotalScore();
                 return true;
             } else {
                 return false;
             }
         } else {
             if (this.currentTry > 2 || this.getRemainPins()===0) {
+                this.setTotalScore();
                 return true;
             } else {
                 return false;
@@ -74,6 +77,7 @@ export class Bowling {
         } else {
             this.currentPlayer = this.players[idx + 1];
         }
+
         this.currentTry = 1;
         
     }
@@ -82,6 +86,30 @@ export class Bowling {
 
     }
 
+    
+    private setTotalScore():void {
+        var currentFrameTotal = this.currentPlayer.score[this.currentFrame-1].reduce(this.reducer);
+
+        if(this.currentPlayer.score[this.currentFrame-1][0]!==10 || currentFrameTotal!==10) {
+            if (this.currentFrame-1!==0) {
+                this.setPreviousScore(this.currentFrame-1);
+            }
+            this.currentPlayer.total[this.currentFrame-1] = currentFrameTotal;
+        } else {
+            this.currentPlayer.total[this.currentFrame-1] = 0;
+        }
+    }
+
+    private setPreviousScore(frame:number):void {
+        if (this.currentPlayer.score[frame-1][0]===10) {
+            this.currentPlayer.total[frame-1] = (10 + this.currentPlayer.score[frame].reduce(this.reducer));
+            if (frame-1!==0 && this.currentPlayer.score[frame-2][0]===10) {
+                this.currentPlayer.total[frame-2] = (20 + this.currentPlayer.score[frame].reduce(this.reducer));
+            }
+        } else if (this.currentPlayer.score[frame-1].reduce(this.reducer)===10) {
+            this.currentPlayer.total[frame-1] = (10 + this.currentPlayer.score[frame][0]);
+        }
+    }
     private getFallenPins():number {
         var pins = this.getRemainPins();
         var remain = Math.floor (Math.random() * (pins+1));
