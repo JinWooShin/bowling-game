@@ -36,33 +36,37 @@ export class Bowling {
     rollTheBall():number {
         var numOfFallen = this.getFallenPins();
         this.currentPlayer.score[this.currentFrame - 1][this.currentTry - 1] = numOfFallen;
-        //calculate total score;
-        this.currentTry++;
         return numOfFallen;
     }
 
+    // check current player's turn end.
+    // when current player done, set frame's total score
     isDone():boolean {
         if (this.currentFrame === 10) {
-            if (this.currentTry > 3 || (this.currentTry ===3 && this.getRemainPins()!==0)) {
+            if (this.currentTry === 3 || (this.currentTry === 2 && this.getRemainPins()!==0)) {
                 this.setTotalScore();
                 return true;
             } else {
+                this.currentTry++;
                 return false;
             }
         } else {
-            if (this.currentTry > 2 || this.getRemainPins()===0) {
+            if (this.currentTry === 2 || this.getRemainPins()===0) {
                 this.setTotalScore();
                 return true;
             } else {
+                this.currentTry++;
                 return false;
             }
         }
     }
 
     isGameOver():boolean  {
-        if (this.currentFrame === 10 && 
+        if ((this.currentFrame === 10 && 
             this.players.indexOf(this.currentPlayer) === this.numPlayers -1 && 
-            this.isDone()) {
+            this.currentTry===3 && this.getRemainPins()!==0) ||
+            this.currentTry > 3) {
+                this.setTotalScore();
                 return true;
             } else {
                 return false;
@@ -79,24 +83,21 @@ export class Bowling {
         }
 
         this.currentTry = 1;
-        
     }
 
-    getScore():void {
-
-    }
-
-    
     private setTotalScore():void {
         var currentFrameTotal = this.currentPlayer.score[this.currentFrame-1].reduce(this.reducer);
-
+        
+        //when player didn't get strike or spare, check previous strike or spare to get bonus score to previous frame
         if(this.currentPlayer.score[this.currentFrame-1][0]!==10 || currentFrameTotal!==10) {
-            if (this.currentFrame-1!==0) {
+            if (this.currentFrame-1!==0) {  //check previous only if currnet frame is not a first frame
                 this.setPreviousScore(this.currentFrame-1);
             }
-            this.currentPlayer.total[this.currentFrame-1] = currentFrameTotal;
+            //this.currentPlayer.total[this.currentFrame-1] = currentFrameTotal;
+            this.currentPlayer.total.push(currentFrameTotal);
         } else {
-            this.currentPlayer.total[this.currentFrame-1] = 0;
+            this.currentPlayer.total.push(0);
+            //this.currentPlayer.total[this.currentFrame-1] = 0;
         }
     }
 
@@ -110,6 +111,7 @@ export class Bowling {
             this.currentPlayer.total[frame-1] = (10 + this.currentPlayer.score[frame][0]);
         }
     }
+
     private getFallenPins():number {
         var pins = this.getRemainPins();
         var remain = Math.floor (Math.random() * (pins+1));
@@ -117,7 +119,7 @@ export class Bowling {
     }
 
     private getRemainPins():number {
-        if (this.currentTry === 1) {
+        if (this.currentTry === 1 || (this.currentFrame === 10 && this.currentTry === 3)) {
             return 10;
         }
         return 10 - this.currentPlayer.score[this.currentFrame-1][this.currentTry-2];

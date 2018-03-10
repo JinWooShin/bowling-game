@@ -11,9 +11,11 @@ import { Player } from "../Bowling/Player";
 export class ScoreboardComponent implements OnInit {
   @Input() bowlingGame:Bowling;
   readonly reducer = (accumulator, currentValue) => accumulator + currentValue;
+  total: number[];
   constructor() { }
 
   ngOnInit() {
+    this.total = [];
   }
 
   isCurrent(player, currentTry, frame): boolean {
@@ -54,11 +56,10 @@ export class ScoreboardComponent implements OnInit {
   getTotal(player:Player, currentFrame) {
     var total = 0; 
     for (var i=0; i<=currentFrame; i++) {
-      total+=player.total[i];
+      if(player.total.length>=i) {
+        total+=player.total[i];
+      }
     }
-    // if(player.score[currentFrame].reduce(this.reducer)===10 || player.score[currentFrame][0]===10) {
-    //   return "";
-    // }
     return total.toString();;
   }
 }
