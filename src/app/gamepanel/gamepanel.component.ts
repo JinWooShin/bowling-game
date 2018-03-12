@@ -12,12 +12,14 @@ export class GamepanelComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.fallen = 0;
   }
 
   rollBall() {
     this.fallen = this.bowlingGame.rollTheBall();
     if (this.bowlingGame.isDone() && !this.bowlingGame.isGameOver()) {
       this.bowlingGame.nextPlayer();
+      this.fallen = 0;
     }
   }
 }

@@ -1,5 +1,5 @@
 <div>
-  <table>
+  <table class="scoreboard-table">
     <thead>
       <tr>
         <th>Player</th>
@@ -17,18 +17,18 @@
           <div *ngIf="!last">
             <span *ngFor="let currentTry of [1,2], let _last = last">
               <span [ngClass]="{currentTry:isCurrent(player, currentTry, i+1)}">{{getScore(frame, currentTry-1, last)}}</span>
-              <span *ngIf="!_last">|</span>
+              <span class="trySeperator" *ngIf="!_last">|</span>
             </span>       
           </div>
           <div *ngIf="last">
             <span *ngFor="let currentTry of [1,2,3], let _last = last">
               <span [ngClass]="{currentTry:isCurrent(player, currentTry, i+1)}">{{frame[currentTry-1]}}</span>
-              <span *ngIf="!_last">|</span>
+              <span class="trySeperator"*ngIf="!_last">|</span>
             </span> 
           </div>
-          <div>
-            <span *ngIf="bowlingGame.currentFrame-1>i">{{getTotal(player, i)}}</span>
-            <span *ngIf="bowlingGame.currentFrame-1<=i">-</span>
+          <div class="totalScore">
+            <span *ngIf="bowlingGame.currentFrame-1>=i">{{getTotal(player, i)}}</span>
+            <span *ngIf="bowlingGame.currentFrame-1<i">-</span>
           </div>
         </td>
       </tr>

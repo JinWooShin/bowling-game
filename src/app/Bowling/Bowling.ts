@@ -42,10 +42,13 @@ export class Bowling {
     // check current player's turn end.
     // when current player done, set frame's total score
     isDone():boolean {
+        //handle 10th frame bonus try case
         if (this.currentFrame === 10) {
-            if (this.currentTry === 3 || (this.currentTry === 2 && this.getRemainPins()!==0)) {
-                this.setTotalScore();
-                return true;
+            if(this.currentTry === 4 || //done 3 times, end
+                //done 2 try without spare or strike, then end
+                (this.currentTry===3 && this.getRemainPins()!==0 && this.currentPlayer.score[9][0]!==10)) { 
+                    this.setTotalScore();
+                    return true;
             } else {
                 this.currentTry++;
                 return false;
@@ -62,15 +65,14 @@ export class Bowling {
     }
 
     isGameOver():boolean  {
-        if ((this.currentFrame === 10 && 
-            this.players.indexOf(this.currentPlayer) === this.numPlayers -1 && 
-            this.currentTry===3 && this.getRemainPins()!==0) ||
-            this.currentTry > 3) {
+        if (this.currentFrame === 10 && this.players.indexOf(this.currentPlayer) === this.numPlayers -1) {
+            if (this.currentTry ===4 || 
+                (this.currentTry === 3 && this.currentPlayer.score[9].reduce(this.reducer)!==10)) {
                 this.setTotalScore();
                 return true;
-            } else {
-                return false;
             }
+        } 
+        return false;
     }
 
     nextPlayer():void {
@@ -103,8 +105,10 @@ export class Bowling {
 
     private setPreviousScore(frame:number):void {
         if (this.currentPlayer.score[frame-1][0]===10) {
+            //when previous strike, add bonus 10 points to previous score
             this.currentPlayer.total[frame-1] = (10 + this.currentPlayer.score[frame].reduce(this.reducer));
             if (frame-1!==0 && this.currentPlayer.score[frame-2][0]===10) {
+                //when double in previous, add bouns 20 poins to first strike frame
                 this.currentPlayer.total[frame-2] = (20 + this.currentPlayer.score[frame].reduce(this.reducer));
             }
         } else if (this.currentPlayer.score[frame-1].reduce(this.reducer)===10) {
@@ -122,7 +126,7 @@ export class Bowling {
         if (this.currentTry === 1 || (this.currentFrame === 10 && this.currentTry === 3)) {
             return 10;
         }
-        return 10 - this.currentPlayer.score[this.currentFrame-1][this.currentTry-2];
+        return 10 - (this.currentPlayer.score[this.currentFrame-1].reduce(this.reducer));
     }
     
 }

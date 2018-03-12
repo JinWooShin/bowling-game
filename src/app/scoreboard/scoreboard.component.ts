@@ -27,13 +27,15 @@ export class ScoreboardComponent implements OnInit {
         return false;
       }
   }
+
+  //return display text to scoreboard
   getScore(pins:number[], currentTry:number, last:boolean):string {
     var score="";
     switch(pins[currentTry]) {
-      case 10:
+      case 10:  //strike
         if (currentTry===0) {
           score="X";
-        } else {
+        } else {  //spare
           score="/";
         }
         break;
@@ -43,7 +45,7 @@ export class ScoreboardComponent implements OnInit {
       default:
         if(currentTry===0 || currentTry===2) {
           score=pins[currentTry].toString();
-        } else {
+        } else {  //spare
           if (pins[currentTry]+pins[currentTry-1]===10) {
             score="/";
           } else {
@@ -53,6 +55,7 @@ export class ScoreboardComponent implements OnInit {
     }
     return score;
   }
+
   getTotal(player:Player, currentFrame) {
     var total = 0; 
     for (var i=0; i<=currentFrame; i++) {
@@ -60,6 +63,6 @@ export class ScoreboardComponent implements OnInit {
         total+=player.total[i];
       }
     }
-    return total.toString();;
+    return isNaN(total)?"-":total.toString();;
   }
 }

@@ -1,26 +1,54 @@
-<div>
-  <span>Current Player: </span>
-  <span>{{bowlingGame.currentPlayer.name}}</span>
-</div>
-<div>
-  <span>Current try: </span>
-  <span>{{bowlingGame.currentTry}}</span>
-</div>
-<div>
-    <span>Current frame: </span>
-    <span>{{bowlingGame.currentFrame}}</span>
-  </div>
-<div>
-    <div>
-        <button type="button" (click)="rollBall()" [disabled]="bowlingGame.isGameOver()">Roll!</button>
+<div class="gamePanel">
+  <div class="container currentGameInfo">
+    <div class="progressInfo" *ngIf="!bowlingGame.isGameOver()">
+      <div class="row">
+        <div class="col-sm-4 col-xs-4">
+          <span class="infoTitle">Player</span>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <span class="infoTitle">Frame</span>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <span class="infoTitle">Try</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-xs-4">
+          <span class="infoText">{{bowlingGame.currentPlayer.name}}</span>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <span class="infoText">{{bowlingGame.currentFrame}}</span>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <span class="infoText">{{bowlingGame.currentTry}}</span>
+        </div>
+      </div>
     </div>
-</div>
-<div>
-  fallen: {{fallen}}
-</div>
-<div>
-  remain: {{bowlingGame.getRemainPins()}}
-</div>
-<div *ngIf="bowlingGame.isGameOver()">
-  GAME OVER!!!
+    <div class="endInfo" *ngIf="bowlingGame.isGameOver()">
+        GAME OVER!
+      </div>
+  </div>
+  <div class="row control">
+    <div class="col-sm-12 col-xs-12">
+      <button type="button" class="btn btn-dark rollBtn" (click)="rollBall()" [disabled]="bowlingGame.isGameOver()">Roll!</button>
+    </div>
+  </div>
+  <div class="container resultInfo">
+    <div class="row">
+      <div class="col-sm-6 col-xs-6">
+        <span class="resultTitle">Fallen</span>
+      </div>
+      <div class="col-sm-6 col-xs-6">
+        <span class="resultTitle">Remains</span>  
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-xs-6">
+        <span class="resultText">{{fallen}}</span>
+      </div>
+      <div class="col-sm-6 col-xs-6">
+        <span class="resultText">{{bowlingGame.getRemainPins()}}</span>
+      </div>
+    </div>
+  </div>
 </div>

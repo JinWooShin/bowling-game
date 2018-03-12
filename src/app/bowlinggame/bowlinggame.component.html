@@ -1,12 +1,22 @@
-<div *ngIf="!gameStart">
-  <div>
-    <label>Number of players:
-      <input [(ngModel)]="numOfPlayers" placeholder="1" type="number">
-    </label>
+
+<div *ngIf="!gameStart" class="row">
+  <div class="col-xs-12 col-sm-3">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Nunber of players</span>
+      </div>
+      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"
+        [(ngModel)]="numOfPlayers" placeholder="1" type="number">
+    </div>
   </div>
-  <div>
-      <button type="button" (click)="startGame()">Start</button>
+  <div class="col-xs-12 col-sm-9">
+      <button type="button" class="btn btn-primary" (click)="startGame()">Start</button>
   </div>
 </div>
-<app-scoreboard *ngIf="gameStart" [bowlingGame]="BowlingGame"></app-scoreboard>
-<app-gamepanel *ngIf="gameStart" [bowlingGame]="BowlingGame"></app-gamepanel>
+<div class="row">
+  <app-scoreboard class="col-sm-6 col-xs-6" *ngIf="gameStart" [bowlingGame]="BowlingGame"></app-scoreboard>
+</div>
+<div class="row">
+  <app-gamepanel class="col-sm-6 col-xs-6" *ngIf="gameStart" [bowlingGame]="BowlingGame"></app-gamepanel>
+</div>
+
