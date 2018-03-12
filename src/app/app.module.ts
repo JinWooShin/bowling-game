@@ -8,7 +8,6 @@ import { GameSettingComponent } from './game-setting/game-setting.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { GamepanelComponent } from './gamepanel/gamepanel.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
